@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using TallerProyectos_BackEnd.DataAccess;
 using TallerProyectos_BackEnd.Models;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace TallerProyectos_BackEnd.Controllers
 {
@@ -28,14 +30,22 @@ namespace TallerProyectos_BackEnd.Controllers
         [HttpPost]
         public IActionResult Create([FromBody]Usuario Usuario)
         {
+            bool existeEmail = _dataAccessProvider.ExisteUsuarioByEmail(Usuario.email);
+
+            if(existeEmail)
+                ModelState.AddModelError("email", "Ya existe registrado un usuario con ese email");
+
             if (ModelState.IsValid)
             {
-                //Guid obj = Guid.NewGuid();
-                //Usuario.id = obj.ToString();
+                //convertir contraseña a hash
+                if(Usuario.password != null && Usuario.password != "")
+                    Usuario.password = GetSHA256(Usuario.password);
+
                 _dataAccessProvider.AddUsuarioRecord(Usuario);
+
                 return Ok();
             }
-            return BadRequest();
+            return BadRequest(ModelState);
         }
 
         [HttpGet("{id}")]
@@ -66,5 +76,18 @@ namespace TallerProyectos_BackEnd.Controllers
             _dataAccessProvider.DeleteUsuarioRecord(id);
             return Ok();
         }
+
+        #region UTIL
+        public static string GetSHA256(string str)
+        {
+            SHA256 sha256 = SHA256Managed.Create();
+            ASCIIEncoding encoding = new ASCIIEncoding();
+            byte[] stream = null;
+            StringBuilder sb = new StringBuilder();
+            stream = sha256.ComputeHash(encoding.GetBytes(str));
+            for (int i = 0; i < stream.Length; i++) sb.AppendFormat("{0:x2}", stream[i]);
+            return sb.ToString();
+        }
+        #endregion
     }
 }

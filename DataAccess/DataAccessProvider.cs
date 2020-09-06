@@ -39,6 +39,18 @@ namespace TallerProyectos_BackEnd.DataAccess
             return _context.Usuario.FirstOrDefault(t => t.id == id);
         }
 
+        public Usuario GetUsuarioByEmail(string email)
+        {
+            return _context.Usuario.FirstOrDefault(t => t.email == email && t.estado == true);
+        }
+
+        public bool ExisteUsuarioByEmail(string email)
+        {
+            int cant = _context.Usuario.Where(x => x.email == email && x.estado == true).Count();
+
+            return cant > 0 ? true : false;
+        }
+
         public List<Usuario> GetUsuarioRecords()
         {
             return _context.Usuario.ToList();

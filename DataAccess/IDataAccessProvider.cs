@@ -12,6 +12,8 @@ namespace TallerProyectos_BackEnd.DataAccess
         void UpdateUsuarioRecord(Usuario usuario);
         void DeleteUsuarioRecord(int id);
         Usuario GetUsuarioSingleRecord(int id);
+        Usuario GetUsuarioByEmail(string email);
+        bool ExisteUsuarioByEmail(string email);
         List<Usuario> GetUsuarioRecords();
     }
 }
