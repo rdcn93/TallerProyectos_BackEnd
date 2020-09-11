@@ -39,7 +39,7 @@ namespace TallerProyectos_BackEnd.Controllers
                 }
                 else
                 {
-                    return BadRequest(ModelState);
+                    return BadRequest("Contraseña incorrecta, por favor vuelva a ingresarla");
                 }
             }
 

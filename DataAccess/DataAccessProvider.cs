@@ -15,6 +15,7 @@ namespace TallerProyectos_BackEnd.DataAccess
             _context = context;
         }
 
+        #region Usuario
         public void AddUsuarioRecord(Usuario usuario)
         {
             _context.Usuario.Add(usuario);
@@ -55,5 +56,38 @@ namespace TallerProyectos_BackEnd.DataAccess
         {
             return _context.Usuario.ToList();
         }
+        #endregion
+
+        #region Usuario
+        public void AddProductoRecord(Producto producto)
+        {
+            _context.Producto.Add(producto);
+            _context.SaveChanges();
+        }
+
+        public void UpdateProductoRecord(Producto producto)
+        {
+            _context.Producto.Update(producto);
+            _context.SaveChanges();
+        }
+
+        public void DeleteProductoRecord(int id)
+        {
+            var entity = _context.Producto.FirstOrDefault(t => t.id == id);
+            _context.Producto.Remove(entity);
+            _context.SaveChanges();
+        }
+
+        public Producto GetProductoSingleRecord(int id)
+        {
+            return _context.Producto.FirstOrDefault(t => t.id == id);
+        }
+
+        public List<Producto> GetProductoRecords()
+        {
+            return _context.Producto.ToList();
+        }
+        #endregion
+
     }
 }

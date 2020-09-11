@@ -11,6 +11,8 @@ namespace TallerProyectos_BackEnd.DataAccess
 
 
         public DbSet<Usuario> Usuario { get; set; }
+        public DbSet<Producto> Producto { get; set; }
+        public DbSet<Categoria> Categoria { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
