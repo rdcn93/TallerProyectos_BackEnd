@@ -28,22 +28,36 @@ namespace TallerProyectos_BackEnd.Controllers
             bool existeEmail = _dataAccessProvider.ExisteUsuarioByEmail(Usuario.email);
 
             if (!existeEmail)
-                ModelState.AddModelError("email", "No existe usuario registrado con ese email");
+            {
+                //ModelState.AddModelError("email", "No existe usuario registrado con ese email");
+
+                return BadRequest(new
+                {
+                    result = false,
+                    mensaje = "No existe usuario registrado con ese email",
+                    ModelState
+                });
+            }                
             else
             {
                 Usuario infoUsu = _dataAccessProvider.GetUsuarioByEmail(Usuario.email);
 
                 if(GetSHA256(Usuario.password) == infoUsu.password)
                 {
-                    return Ok();
+                    return Ok(new {
+                        result = true,
+                        mensaje = "Usuario logueado correctamente",
+                        usuario = infoUsu
+                    });
                 }
                 else
                 {
-                    return BadRequest("Contraseña incorrecta, por favor vuelva a ingresarla");
+                    return BadRequest(new { 
+                        result = false,
+                        mensaje = "Contraseña incorrecta, por favor vuelva a ingresarla"
+                    });
                 }
             }
-
-            return BadRequest(ModelState);
         }
 
         #region UTIL

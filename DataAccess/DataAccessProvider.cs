@@ -85,7 +85,8 @@ namespace TallerProyectos_BackEnd.DataAccess
 
         public List<Producto> GetProductoRecords()
         {
-            return _context.Producto.ToList();
+            var productos = _context.Producto.ToList();
+            return productos;
         }
         #endregion
 
