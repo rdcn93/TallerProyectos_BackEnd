@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -24,6 +25,12 @@ namespace TallerProyectos_BackEnd.DataAccess
 
         public void UpdateUsuarioRecord(Usuario usuario)
         {
+            var dbEntry = _context.Entry(usuario);
+
+            dbEntry.Property(x => x.id).IsModified = false;
+            dbEntry.Property(x => x.estado).IsModified = false;
+            dbEntry.Property(x => x.fechaRegistro).IsModified = false;
+
             _context.Usuario.Update(usuario);
             _context.SaveChanges();
         }
@@ -61,14 +68,82 @@ namespace TallerProyectos_BackEnd.DataAccess
         #region Usuario
         public void AddProductoRecord(Producto producto)
         {
+            var dbEntry = _context.Entry(producto);
+
+            //dbEntry.Property(x => x.fabricante).IsModified = false;
+            //dbEntry.Property(x => x.productoCategorias).IsModified = false;
+            //dbEntry.Property(x => x.productoImagenes).IsModified = false;
+            //dbEntry.Property(x => x.imagenes).IsModified = false;
+            //dbEntry.Property(x => x.categorias).IsModified = false;
+
             _context.Producto.Add(producto);
+            _context.SaveChanges();
+
+            foreach (var pc in producto.categorias)
+            {
+                if(pc.id != 0)
+                {
+                    ProductoCategoria newProdCat = new ProductoCategoria();
+
+                    newProdCat.idProducto = producto.id;
+                    newProdCat.idCategoria = pc.id;
+                    newProdCat.estado = true;
+                    newProdCat.fechaRegistro = DateTime.Now;
+
+                    _context.ProductoCategoria.Add(newProdCat);
+                }
+            }
+
             _context.SaveChanges();
         }
 
         public void UpdateProductoRecord(Producto producto)
         {
+            var dbEntry = _context.Entry(producto);
+
+            dbEntry.Property(x => x.id).IsModified = false;
+            dbEntry.Property(x => x.estado).IsModified = false;
+            dbEntry.Property(x => x.fechaRegistro).IsModified = false;
+
+            List<ProductoCategoria> listProdCat = new List<ProductoCategoria>();
+            listProdCat = _context.ProductoCategoria.Where(x => x.idProducto.Equals(producto.id)).ToList();
+
+            foreach (var pc in producto.categorias)
+            {
+                bool existe = listProdCat.Where(x => x.idCategoria.Equals(pc.id)).Count() > 0 ? true : false;
+
+                if (pc.id != 0)
+                {
+                    ProductoCategoria newProdCat = new ProductoCategoria();
+                    var dbEntryProdCat = _context.Entry(newProdCat);
+
+                    newProdCat.idProducto = producto.id;
+                    newProdCat.idCategoria = pc.id;                    
+                    newProdCat.fechaRegistro = DateTime.Now;
+
+                    if (!existe)
+                    {
+                        _context.ProductoCategoria.Add(newProdCat);
+                    }
+                    else
+                    {
+                        dbEntryProdCat.Property(x => x.idProducto).IsModified = false;
+                        dbEntryProdCat.Property(x => x.idCategoria).IsModified = false;
+                        dbEntryProdCat.Property(x => x.estado).IsModified = false;
+                        dbEntryProdCat.Property(x => x.fechaRegistro).IsModified = false;
+
+                        newProdCat.fechaModificacion = DateTime.Now;
+
+                        newProdCat.estado = true;
+
+                        _context.ProductoCategoria.Update(newProdCat);
+                    }
+                }
+            }
+
             _context.Producto.Update(producto);
             _context.SaveChanges();
+
         }
 
         public void DeleteProductoRecord(int id)
@@ -85,7 +160,10 @@ namespace TallerProyectos_BackEnd.DataAccess
 
         public List<Producto> GetProductoRecords()
         {
-            var productos = _context.Producto.ToList();
+            var productos = _context.Producto.Include(x => x.productoCategorias).ThenInclude(y => y.categoria).ToList();
+
+
+            //var productos = _context.Producto.ToList();
             return productos;
         }
         #endregion

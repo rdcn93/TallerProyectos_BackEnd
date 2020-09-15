@@ -12,6 +12,8 @@ namespace TallerProyectos_BackEnd.Models
         [Key]
         public int idCategoria { get; set; }
         public bool estado { get; set; }
+        public DateTime fechaRegistro { get; set; }
+        public DateTime fechaModificacion { get; set; }
 
         public Producto producto { get; set; }
         public Categoria categoria { get; set; }

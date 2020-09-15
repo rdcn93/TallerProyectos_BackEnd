@@ -28,7 +28,6 @@ namespace TallerProyectos_BackEnd.DataAccess
             //builder.HasDefaultSchema("Seguridad");
 
 
-
             #region Producto Categoria
             builder.Entity<ProductoCategoria>()
                     .HasKey(bc => new { bc.idProducto, bc.idCategoria });

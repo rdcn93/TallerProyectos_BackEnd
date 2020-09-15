@@ -25,7 +25,22 @@ namespace TallerProyectos_BackEnd.Controllers
         [HttpPost]
         public IActionResult Login([FromBody]Usuario Usuario)
         {
-            bool existeEmail = _dataAccessProvider.ExisteUsuarioByEmail(Usuario.email);
+            bool existeEmail = false;
+
+            try
+            {
+                existeEmail = _dataAccessProvider.ExisteUsuarioByEmail(Usuario.email);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    result = false,
+                    mensaje = ex.Message,
+                    error = ex
+                });
+            }
+            
 
             if (!existeEmail)
             {

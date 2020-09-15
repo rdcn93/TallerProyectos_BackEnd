@@ -49,6 +49,8 @@ namespace TallerProyectos_BackEnd.Controllers
         {
             if (ModelState.IsValid)
             {
+                Producto.fechaModificacion = DateTime.Now;
+
                 _dataAccessProvider.UpdateProductoRecord(Producto);
                 return Ok();
             }
@@ -63,6 +65,9 @@ namespace TallerProyectos_BackEnd.Controllers
             {
                 return NotFound();
             }
+
+            data.fechaModificacion = DateTime.Now;
+
             _dataAccessProvider.DeleteProductoRecord(id);
             return Ok();
         }

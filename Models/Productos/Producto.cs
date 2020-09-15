@@ -19,6 +19,8 @@ namespace TallerProyectos_BackEnd.Models
         public int cantidad { get; set; }
         
         public int? idFabricante { get; set; }
+        
+        [NotMapped]
         [ForeignKey("idFabricante")]
         public virtual Fabricante fabricante { get; set; }
 
@@ -26,7 +28,9 @@ namespace TallerProyectos_BackEnd.Models
         public DateTime fechaRegistro { get; set; }
         public DateTime fechaModificacion { get; set; }
 
-        public List<Categoria> categorias { get; set; }        
+        [NotMapped]
+        public List<Categoria> categorias { get; set; }
+        [NotMapped]
         public List<Imagen> imagenes { get; set; }
 
         public ICollection<ProductoCategoria> productoCategorias { get; set; }
