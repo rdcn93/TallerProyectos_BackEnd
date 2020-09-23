@@ -16,17 +16,23 @@ namespace TallerProyectos_BackEnd.DataAccess
         #region Productos
         public DbSet<Producto> Producto { get; set; }
         public DbSet<Categoria> Categoria { get; set; }
+        public DbSet<Catalogo> Catalogo { get; set; }
         public DbSet<Imagen> Imagen { get; set; }
         public DbSet<Fabricante> Fabricante { get; set; }
 
         public DbSet<ProductoCategoria> ProductoCategoria { get; set; }
         public DbSet<ProductoImagen> ProductoImagen { get; set; }
+        public DbSet<ProductoCatalogo> ProductoCatalogo { get; set; }
         #endregion
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             //builder.HasDefaultSchema("Seguridad");
 
+            builder.Entity<Producto>()
+            .HasOne<Fabricante>(b => b.fabricante)
+            .WithMany(a => a.productos)
+            .HasForeignKey(b => b.idFabricante);
 
             #region Producto Categoria
             builder.Entity<ProductoCategoria>()
@@ -52,6 +58,19 @@ namespace TallerProyectos_BackEnd.DataAccess
                 .HasOne(bc => bc.imagen)
                 .WithMany(c => c.productoImagenes)
                 .HasForeignKey(bc => bc.idImagen);
+            #endregion
+
+            #region Producto Catalogo
+            builder.Entity<ProductoCatalogo>()
+                    .HasKey(bc => new { bc.idProducto, bc.idCatalogo });
+            builder.Entity<ProductoCatalogo>()
+                .HasOne(bc => bc.producto)
+                .WithMany(b => b.productoCatalogos)
+                .HasForeignKey(bc => bc.idProducto);
+            builder.Entity<ProductoCatalogo>()
+                .HasOne(bc => bc.catalogo)
+                .WithMany(c => c.productoCatalogos)
+                .HasForeignKey(bc => bc.idCatalogo);
             #endregion
 
             base.OnModelCreating(builder);

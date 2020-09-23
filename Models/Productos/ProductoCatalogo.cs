@@ -2,21 +2,23 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace TallerProyectos_BackEnd.Models
 {
-    [Table("Categoria", Schema = "Productos")]
-    public class Categoria
+    [Table("ProductoCatalogo", Schema = "Productos")]
+    public class ProductoCatalogo
     {
         [Key]
-        public int id { get; set; }
-        [Required(ErrorMessage = "El campo Nombre es obligatorio")]
-        public string nombre { get; set; }
+        public int idProducto { get; set; }
+        [Key]
+        public int idCatalogo { get; set; }
         public bool estado { get; set; }
         public DateTime fechaRegistro { get; set; }
         public DateTime fechaModificacion { get; set; }
 
-        [NotMapped]
-        public ICollection<ProductoCategoria> productoCategorias { get; set; }
+        public Producto producto { get; set; }
+        public Catalogo catalogo { get; set; }
     }
 }

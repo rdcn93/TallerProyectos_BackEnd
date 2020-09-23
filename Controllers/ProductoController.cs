@@ -71,5 +71,19 @@ namespace TallerProyectos_BackEnd.Controllers
             _dataAccessProvider.DeleteProductoRecord(id);
             return Ok();
         }
+
+        [HttpGet]
+        [Route("[action]/{id}")]
+        public IEnumerable<Producto> ProductosByCategoria(int id)
+        {
+            return _dataAccessProvider.ProductosByCategoria(id);
+        }
+
+        [HttpGet]
+        [Route("[action]/{id}")]
+        public IEnumerable<Producto> ProductosByCatalogo(int id)
+        {
+            return _dataAccessProvider.ProductosByCatalogo(id);
+        }
     }
 }

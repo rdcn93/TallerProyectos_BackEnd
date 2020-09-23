@@ -10,7 +10,7 @@ namespace TallerProyectos_BackEnd.Models
     {
         [Key]
         public int id { get; set; }
-        [Required(ErrorMessage = "El campo Nombre es obligatorio")]
+
         public string nombre { get; set; }
         public string ruc { get; set; }
         public bool estado { get; set; }
@@ -18,6 +18,6 @@ namespace TallerProyectos_BackEnd.Models
         public DateTime fechaModificacion { get; set; }
 
         //[ForeignKey("idFabricante")]
-        //public ICollection<Producto> productos { get; set; }
+        public ICollection<Producto> productos { get; set; }
     }
 }

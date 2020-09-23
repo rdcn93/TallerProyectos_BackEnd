@@ -25,6 +25,40 @@ namespace TallerProyectos_BackEnd.DataAccess
         void DeleteProductoRecord(int id);
         Producto GetProductoSingleRecord(int id);
         List<Producto> GetProductoRecords();
+        List<Producto> ProductosByCategoria(int id);
+        List<Producto> ProductosByCatalogo(int id);
+        #endregion
+
+        #region Categoria
+        public void AddCategoriaRecord(Categoria cat);
+        public void UpdateCategoriaRecord(Categoria cat);
+        public void DeleteCategoriaRecord(int id);
+        public Categoria GetCategoriaSingleRecord(int id);
+        public List<Categoria> GetCategoriaRecords(bool todo = false);
+        #endregion
+
+        #region Catalogo
+        public void AddCatalogo(Catalogo cat);
+
+        public void UpdateCatalogoRecord(Catalogo cat);
+
+        public void DeleteCatalogoRecord(int id);
+
+        public Catalogo GetCatalogoSingleRecord(int id);
+
+        public List<Catalogo> GetCatalogoRecords(bool todo = false);
+        #endregion
+
+        #region Fabricante
+        public void AddFabricanteRecord(Fabricante cat);
+
+        public void UpdateFabricanteRecord(Fabricante cat);
+
+        public void DeleteFabricanteRecord(int id);
+
+        public Fabricante GetFabricanteSingleRecord(int id);
+
+        public List<Fabricante> GetFabricanteRecords(bool todo = false);
         #endregion
     }
 }

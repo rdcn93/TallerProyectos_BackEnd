@@ -21,6 +21,14 @@ namespace TallerProyectos_BackEnd
         public void ConfigureServices(IServiceCollection services)
         {
             //services.AddControllers();
+
+            services.AddCors();
+
+            //services.AddCors(c =>
+            //{
+            //    c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());
+            //});
+
             services.AddControllers().AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
             );
@@ -29,12 +37,14 @@ namespace TallerProyectos_BackEnd
 
             services.AddDbContext<PostgreSqlContext>(options => options.UseNpgsql(sqlConnectionString));
 
-            services.AddScoped<IDataAccessProvider, DataAccessProvider>();
+            services.AddScoped<IDataAccessProvider, DataAccessProvider>();            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -50,6 +60,8 @@ namespace TallerProyectos_BackEnd
             {
                 endpoints.MapControllers();
             });
+
+            
         }
     }
 }

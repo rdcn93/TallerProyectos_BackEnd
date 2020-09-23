@@ -34,6 +34,7 @@ namespace TallerProyectos_BackEnd.Models
         public List<Imagen> imagenes { get; set; }
 
         public ICollection<ProductoCategoria> productoCategorias { get; set; }
+        public ICollection<ProductoCatalogo> productoCatalogos { get; set; }
         public ICollection<ProductoImagen> productoImagenes { get; set; }
 
         public Producto()
