@@ -73,6 +73,68 @@ namespace TallerProyectos_BackEnd.DataAccess
         }
         #endregion
 
+        #region Cliente
+        public void AddClienteRecord(Cliente cliente)
+        {
+            _context.Cliente.Add(cliente);
+            _context.SaveChanges();
+        }
+
+        public void UpdateClienteRecord(Cliente cliente)
+        {
+            var dbEntry = _context.Entry(cliente);
+
+            dbEntry.Property(x => x.id).IsModified = false;
+            dbEntry.Property(x => x.estado).IsModified = false;
+            dbEntry.Property(x => x.fechaRegistro).IsModified = false;
+
+            _context.Cliente.Update(cliente);
+            _context.SaveChanges();
+        }
+
+        public void DeleteClienteRecord(int id)
+        {
+            var entity = _context.Cliente.FirstOrDefault(t => t.id == id);
+
+            entity.estado = false;
+            entity.fechaModificacion = DateTime.Now;
+
+            _context.Cliente.Update(entity);
+
+            //_context.Usuario.Remove(entity);
+            _context.SaveChanges();
+        }
+
+        public Cliente GetClienteSingleRecord(int id)
+        {
+            return _context.Cliente.FirstOrDefault(t => t.id == id);
+        }
+
+        public Cliente GetClienteByEmail(string email)
+        {
+            return _context.Cliente.FirstOrDefault(t => t.email == email && t.estado == true);
+        }
+
+        public bool ExisteClienteByEmail(string email)
+        {
+            int cant = _context.Cliente.Where(x => x.email == email && x.estado == true).Count();
+
+            return cant > 0 ? true : false;
+        }
+
+        public bool ExisteClienteByUsuario(string usuario)
+        {
+            int cant = _context.Cliente.Where(x => x.usuario == usuario && x.estado == true).Count();
+
+            return cant > 0 ? true : false;
+        }
+
+        public List<Cliente> GetClienteRecords()
+        {
+            return _context.Cliente.ToList();
+        }
+        #endregion
+
         #region Producto
         public void AddProductoRecord(Producto producto)
         {

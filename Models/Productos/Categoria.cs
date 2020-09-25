@@ -10,7 +10,7 @@ namespace TallerProyectos_BackEnd.Models
     {
         [Key]
         public int id { get; set; }
-        [Required(ErrorMessage = "El campo Nombre es obligatorio")]
+        //[Required(ErrorMessage = "El campo Nombre es obligatorio")]
         public string nombre { get; set; }
         public bool estado { get; set; }
         public DateTime fechaRegistro { get; set; }

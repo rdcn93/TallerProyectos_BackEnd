@@ -11,6 +11,7 @@ namespace TallerProyectos_BackEnd.DataAccess
 
         #region Usuarios
         public DbSet<Usuario> Usuario { get; set; }
+        public DbSet<Cliente> Cliente { get; set; }
         #endregion
 
         #region Productos

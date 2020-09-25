@@ -18,6 +18,17 @@ namespace TallerProyectos_BackEnd.DataAccess
         List<Usuario> GetUsuarioRecords();
         #endregion
 
+        #region Cliente
+        void AddClienteRecord(Cliente usuario);
+        void UpdateClienteRecord(Cliente usuario);
+        void DeleteClienteRecord(int id);
+        Cliente GetClienteSingleRecord(int id);
+        Cliente GetClienteByEmail(string email);
+        bool ExisteClienteByEmail(string email);
+        bool ExisteClienteByUsuario(string usuario);
+        List<Cliente> GetClienteRecords();
+        #endregion
+
 
         #region Producto
         void AddProductoRecord(Producto producto);
