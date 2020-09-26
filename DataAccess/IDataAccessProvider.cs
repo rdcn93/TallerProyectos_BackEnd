@@ -38,6 +38,7 @@ namespace TallerProyectos_BackEnd.DataAccess
         List<Producto> GetProductoRecords();
         List<Producto> ProductosByCategoria(int id);
         List<Producto> ProductosByCatalogo(int id);
+        List<Producto> ProductosByFabricante(int id);
         #endregion
 
         #region Categoria

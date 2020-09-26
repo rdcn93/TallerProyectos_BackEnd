@@ -276,6 +276,14 @@ namespace TallerProyectos_BackEnd.DataAccess
                                select ep).ToList();
             return productos;
         }
+
+        public List<Producto> ProductosByFabricante(int id)
+        {
+            var productos = (from ep in _context.Producto
+                             where ep.idFabricante == id && ep.estado
+                             select ep).ToList();
+            return productos;
+        }
         #endregion
 
         #region Categoria

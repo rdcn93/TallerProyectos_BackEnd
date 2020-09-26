@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TallerProyectos_BackEnd.DataAccess;
 using TallerProyectos_BackEnd.Models;
+using System.Net.Http.Headers;
 
 namespace TallerProyectos_BackEnd.Controllers
 {
@@ -31,6 +33,25 @@ namespace TallerProyectos_BackEnd.Controllers
         {
             if (ModelState.IsValid)
             {
+                //var files = Request.Form.Files;
+                //var folderName = Path.Combine("StaticFiles", "Images");
+                //var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+
+                //foreach (var file in files)
+                //{
+                //    if (file.Length > 0)
+                //    {
+                //        var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+                //        var fullPath = Path.Combine(pathToSave, fileName);
+                //        var dbPath = Path.Combine(folderName, fileName);
+
+                //        using (var stream = new FileStream(fullPath, FileMode.Create))
+                //        {
+                //            file.CopyTo(stream);
+                //        }
+                //    }
+                //}
+
                 _dataAccessProvider.AddProductoRecord(producto);
 
                 return Ok();
@@ -77,6 +98,13 @@ namespace TallerProyectos_BackEnd.Controllers
         public IEnumerable<Producto> ProductosByCategoria(int id)
         {
             return _dataAccessProvider.ProductosByCategoria(id);
+        }
+
+        [HttpGet]
+        [Route("[action]/{id}")]
+        public IEnumerable<Producto> ProductosByFabricante(int id)
+        {
+            return _dataAccessProvider.ProductosByFabricante(id);
         }
 
         [HttpGet]
